@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: angular-deployment
+spec:
+  replicas: 2  # Adjust replicas based on traffic needs
+  selector:
+    matchLabels:
+      app: angular-app
+  template:
+    metadata:
+      labels:
+        app: angular-app
+    spec:
+      containers:
+      - name: angular-app
+        image: your-dockerhub-username/angular-app:latest  # Replace with your image
+        ports:
+        - containerPort: 80
+        env:
+        - name: API_BASE_URL  # Environment variable for API calls to the backend
+          value: "http://springboot-service:8080"  # Service name for the Spring Boot backend
