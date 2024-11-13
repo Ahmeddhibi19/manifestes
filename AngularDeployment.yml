@@ -3,10 +3,15 @@ kind: Deployment
 metadata:
   name: angular-deployment
 spec:
-  replicas: 2  # Adjust replicas based on traffic needs
+  replicas: 3  # Set the number of replicas to 3
   selector:
     matchLabels:
       app: angular-app
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
   template:
     metadata:
       labels:
@@ -14,9 +19,9 @@ spec:
     spec:
       containers:
       - name: angular-app
-        image: your-dockerhub-username/angular-app:latest  # Replace with your image
+        image: your-dockerhub-username/angular-app:latest
         ports:
         - containerPort: 80
         env:
-        - name: API_BASE_URL  # Environment variable for API calls to the backend
-          value: "http://springboot-service:8080"  # Service name for the Spring Boot backend
+        - name: API_BASE_URL
+          value: "http://springboot-service:8080"

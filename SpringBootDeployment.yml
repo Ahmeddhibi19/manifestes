@@ -3,10 +3,15 @@ kind: Deployment
 metadata:
   name: springboot-app
 spec:
-  replicas: 1
+  replicas: 3  # Set the number of replicas to 3
   selector:
     matchLabels:
       app: springboot-app
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1  # Ensures at least one pod is available during update
+      maxSurge: 1        # Allows one extra pod to be started during the update
   template:
     metadata:
       labels:
@@ -16,7 +21,6 @@ spec:
       - name: wait-for-mysql
         image: busybox
         command: ['sh', '-c', 'until nc -z mysql-headless 3306; do echo waiting for mysql; sleep 2; done;']
-
       containers:
       - name: springboot-app
         image: your-dockerhub-username/springboot-app:latest
