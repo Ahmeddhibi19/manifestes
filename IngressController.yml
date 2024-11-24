@@ -9,7 +9,7 @@ spec:
   - host: your-app-domain.com  # Replace with your actual domain or IP
     http:
       paths:
-      - path: /springboot
+      - path: /api
         pathType: Prefix
         backend:
           service:
